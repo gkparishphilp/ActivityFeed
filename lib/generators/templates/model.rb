@@ -22,8 +22,15 @@ class Activity < ActiveRecord::Base
 		return Activity.all if arg_list.empty?
 		activities = []
 		for obj in arg_list
-			next unless obj.respond_to? 'activities'
-			activities += obj.activities
+			if obj.respond_to? 'each'
+				for child in obj
+					next unless child.respond_to? 'activities'
+					activities += child.activities
+				end
+			else
+				next unless obj.respond_to? 'activities'
+				activities += obj.activities
+			end
 		end
 		activities.uniq!
 		activities.sort! { |a, b| b.created_at <=> a.created_at }
