@@ -1,4 +1,4 @@
-class ActivityMigration < ActiveRecord::Migration
+class ActivityFeedMigration < ActiveRecord::Migration
 	def self.up
 		create_table :activities, :force => true do |t|
 			t.references	:actor, :polymorphic => true, :null => false
