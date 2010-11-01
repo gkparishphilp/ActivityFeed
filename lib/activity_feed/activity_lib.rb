@@ -16,7 +16,8 @@ module ActivityFeed
 			elsif DICTIONARY.has_key? first_word
 				return verb.gsub( /\A\w+/, DICTIONARY[first_word] )
 			else
-				first_word = first_word + 'ed'
+				first_word = first_word + 'd' if first_word.match /e\z/
+				first_word = first_word + 'ed' unless first_word.match /ed\z/
 				return verb.gsub( /\A\w+/, first_word )
 			end
 		end

@@ -17,6 +17,18 @@ class Activity < ActiveRecord::Base
 	def self.recent( since = 1.week.ago )
 		where( "created_at > ?", since )
 	end
+	
+	def self.feed( *arg_list ) # take a list of gets_activities objects and generate a feed for them
+		return Activity.all if arg_list.empty?
+		activities = []
+		for obj in arg_list
+			next unless obj.respond_to? 'activities'
+			activities += obj.activities
+		end
+		activities.uniq!
+		activities.sort! { |a, b| b.created_at <=> a.created_at }
+		return activities
+	end
 
 	# instance methods
 	def active?
